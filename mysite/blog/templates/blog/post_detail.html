@@ -1,0 +1,314 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ post.title }} | GlassCMS{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Article Header */
+    .article-header {
+        margin-bottom: 3rem;
+        text-align: center;
+        border-bottom: 1px solid var(--glass-border);
+        padding-bottom: 2.5rem;
+    }
+
+    .article-meta-info {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1.25rem;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+    }
+
+    .article-category {
+        display: inline-block;
+        padding: 0.35rem 0.8rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-radius: 20px;
+        background: var(--accent-glow);
+        color: #d8b4fe;
+        border: 1px solid rgba(168, 85, 247, 0.2);
+        text-decoration: none;
+    }
+
+    .article-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: 3.2rem;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        color: var(--text-primary);
+        line-height: 1.2;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    /* Article Content (The Reader) */
+    .article-reader {
+        max-width: 800px;
+        margin: 0 auto 4rem auto;
+    }
+
+    .article-body {
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: #e2e8f0;
+        font-weight: 300;
+    }
+
+    .article-body p {
+        margin-bottom: 1.75rem;
+    }
+
+    .article-body h2, .article-body h3 {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 2.5rem 0 1rem 0;
+        letter-spacing: -0.02em;
+    }
+
+    .article-body h2 { font-size: 1.8rem; }
+    .article-body h3 { font-size: 1.4rem; }
+
+    .article-body ul, .article-body ol {
+        margin-bottom: 1.75rem;
+        padding-left: 1.5rem;
+        color: var(--text-secondary);
+    }
+
+    .article-body li {
+        margin-bottom: 0.5rem;
+    }
+
+    .article-body blockquote {
+        border-left: 4px solid var(--primary);
+        background: rgba(99, 102, 241, 0.05);
+        padding: 1.25rem 2rem;
+        margin: 2rem 0;
+        border-radius: 0 16px 16px 0;
+        font-style: italic;
+        color: #c7d2fe;
+    }
+
+    /* Navigation button */
+    .back-btn-container {
+        max-width: 800px;
+        margin: 0 auto 2rem auto;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+        color: var(--text-primary);
+        transform: translateX(-4px);
+    }
+
+    /* Comments Section */
+    .comments-section {
+        max-width: 800px;
+        margin: 4rem auto 0 auto;
+        border-top: 1px solid var(--glass-border);
+        padding-top: 3rem;
+    }
+
+    .comments-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        color: var(--text-primary);
+    }
+
+    .comments-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .comment-card {
+        background: rgba(255, 255, 255, 0.01);
+        border: 1px solid var(--glass-border);
+        border-radius: 16px;
+        padding: 1.5rem;
+        position: relative;
+    }
+
+    .comment-meta {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.75rem;
+        font-size: 0.85rem;
+    }
+
+    .comment-author {
+        font-weight: 600;
+        color: #a5b4fc;
+    }
+
+    .comment-date {
+        color: var(--text-secondary);
+        font-weight: 300;
+    }
+
+    .comment-text {
+        color: #e2e8f0;
+        font-size: 0.98rem;
+        line-height: 1.5;
+    }
+
+    /* Comment Form styling */
+    .comment-form-card {
+        background: rgba(17, 24, 39, 0.4);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        padding: 2rem;
+    }
+
+    .comment-form-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .form-group label {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .form-group input, .form-group textarea {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 12px;
+        padding: 0.8rem 1.2rem;
+        color: var(--text-primary);
+        font-family: inherit;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-group input:focus, .form-group textarea:focus {
+        outline: none;
+        border-color: rgba(99, 102, 241, 0.5);
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .submit-comment-btn {
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        padding: 0.8rem 1.8rem;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        box-shadow: 0 4px 12px var(--primary-glow);
+        transition: all 0.3s ease;
+    }
+
+    .submit-comment-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(99, 102, 241, 0.5);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <!-- Back Navigation -->
+    <div class="back-btn-container">
+        <a href="{% url 'blog:post_list' %}" class="back-link">
+            &larr; Back to articles
+        </a>
+    </div>
+
+    <!-- Article Content -->
+    <article class="glass-card article-reader">
+        <div class="article-header">
+            <div class="article-meta-info">
+                {% if post.category %}
+                    <a href="{% url 'blog:category_posts' post.category.slug %}" class="article-category">
+                        {{ post.category.name }}
+                    </a>
+                {% else %}
+                    <span class="article-category" style="background: rgba(255,255,255,0.05); color: var(--text-secondary); border-color: transparent;">General</span>
+                {% endif %}
+                <span>&bull;</span>
+                <span>Published on {{ post.published_at|date:"F j, Y" }}</span>
+                <span>&bull;</span>
+                <span>By Admin</span>
+            </div>
+            <h1 class="article-title">{{ post.title }}</h1>
+        </div>
+
+        <div class="article-body">
+            <!-- Render the content. Django linebreaks or safe tags if they input HTML -->
+            {{ post.content|linebreaks }}
+        </div>
+    </article>
+
+    <!-- Comments Section (Placeholder, will bind in Step 7) -->
+    <div class="comments-section">
+        <h3 class="comments-title">Discussion ({% if comments %}{{ comments.count }}{% else %}0{% endif %})</h3>
+        
+        <div class="comments-list">
+            {% if comments %}
+                {% for comment in comments %}
+                    <div class="comment-card">
+                        <div class="comment-meta">
+                            <span class="comment-author">{{ comment.author_name }}</span>
+                            <span class="comment-date">{{ comment.created_at|date:"F j, Y, g:i a" }}</span>
+                        </div>
+                        <div class="comment-text">
+                            {{ comment.content|linebreaks }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p style="color: var(--text-secondary); text-align: center; padding: 2rem; font-weight: 300;">
+                    No comments yet. Start the conversation below!
+                </p>
+            {% endif %}
+        </div>
+
+        <!-- Comment Form -->
+        <div class="comment-form-card">
+            <h4 class="comment-form-title">Join the Conversation</h4>
+            <form action="#" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="author_name">Name</label>
+                    <input type="text" id="author_name" name="author_name" placeholder="Your name" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="content">Comment</label>
+                    <textarea id="content" name="content" rows="4" placeholder="Share your thoughts..." required></textarea>
+                </div>
+                <button type="submit" class="submit-comment-btn">Submit Comment</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
