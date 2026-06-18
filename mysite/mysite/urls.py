@@ -16,9 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from pages import views as pages_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('tasks/', include('pages.urls')),
     path('', include('blog.urls')),
+    
+    # We add this at the very bottom so it acts as a "catch-all" 
+    # for any text after the slash!
+    path('<slug:slug>/', pages_views.page_detail_view, name='page_detail'),
 ]

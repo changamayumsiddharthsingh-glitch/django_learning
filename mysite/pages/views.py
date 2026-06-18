@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Task
+from .models import Task, Page
 
 def home_page_view(request):
     tasks = Task.objects.all().order_by('-created_at')
@@ -34,3 +34,11 @@ def delete_task_view(request, task_id):
         task = get_object_or_404(Task, id=task_id)
         task.delete()
     return redirect('home')
+
+def page_detail_view(request, slug):
+    # This fetches the Page from the database that matches the slug in the URL.
+    # We also check that is_published=True so hidden pages aren't viewable.
+    page = get_object_or_404(Page, slug=slug, is_published=True)
+    
+    # We pass the page object to a template to render it.
+    return render(request, 'pages/page_detail.html', {'page': page})
