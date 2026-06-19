@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}GlassCMS | Premium Django Portal{% endblock %}</title>
+    <title>{% block title %}WNBA{% endblock %}</title>
     <!-- Google Fonts: Inter & Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -253,7 +253,7 @@
     <nav>
         <div class="nav-container">
             <a href="{% url 'blog:post_list' %}" class="logo">
-                GlassCMS <span>PRO</span>
+                WNBA
             </a>
             
             <ul class="nav-links">
@@ -283,6 +283,7 @@
                     {% endfor %}
                 {% endif %}
                 
+                <li><a href="{% url 'gallery' %}">Gallery</a></li>
                 <li><a href="/tasks/" class="nav-cta">Task Dashboard &rarr;</a></li>
             </ul>
         </div>
@@ -296,14 +297,15 @@
     <!-- Footer -->
     <footer>
         <div class="footer-container">
-            <div class="footer-logo">GlassCMS</div>
+            <div class="footer-logo">WNBA</div>
             <ul class="footer-links">
                 <li><a href="{% url 'blog:post_list' %}">Home</a></li>
+                <li><a href="{% url 'gallery' %}">Image Gallery</a></li>
                 <li><a href="/admin/" target="_blank">Django Admin</a></li>
                 <li><a href="/tasks/">Tasks Dashboard</a></li>
             </ul>
             <div class="copyright">
-                &copy; 2026 GlassCMS. Built with Django, Vanilla CSS, and modern visual aesthetics.
+                &copy; 2026 WNBA. Built with Django, Vanilla CSS, and modern visual aesthetics.
             </div>
         </div>
     </footer>

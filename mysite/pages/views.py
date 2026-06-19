@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Task, Page
+from .models import Task, Page, GalleryImage
 
 def home_page_view(request):
     tasks = Task.objects.all().order_by('-created_at')
@@ -42,3 +42,9 @@ def page_detail_view(request, slug):
     
     # We pass the page object to a template to render it.
     return render(request, 'pages/page_detail.html', {'page': page})
+
+def gallery_view(request):
+    # Fetch all images from the database, newest first
+    images = GalleryImage.objects.all().order_by('-uploaded_at')
+    return render(request, 'pages/gallery.html', {'images': images})
+

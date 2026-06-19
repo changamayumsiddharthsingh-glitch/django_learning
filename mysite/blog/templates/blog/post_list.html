@@ -2,9 +2,9 @@
 
 {% block title %}
     {% if category %}
-        {{ category.name }} Articles | GlassCMS
+        {{ category.name }} Articles | WNBA
     {% else %}
-        Latest Articles | GlassCMS
+        Latest Articles | WNBA
     {% endif %}
 {% endblock %}
 
@@ -296,14 +296,14 @@
             {% if category %}
                 {{ category.name }}
             {% else %}
-                Explore Insights
+                WNBA News & Highlights
             {% endif %}
         </h1>
         <p class="hero-subtitle">
             {% if category %}
                 {% if category.description %}{{ category.description }}{% else %}A collection of ideas and stories under the {{ category.name }} category.{% endif %}
             {% else %}
-                Dive into dynamic pages, static contents, and blog insights curated dynamically using Django.
+                Catch up on the latest game highlights, player stats, and exclusive WNBA content.
             {% endif %}
         </p>
     </div>

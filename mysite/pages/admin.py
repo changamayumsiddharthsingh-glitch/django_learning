@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Task, Page
+from .models import Task, Page, GalleryImage
 
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
@@ -9,3 +9,6 @@ class PageAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
 admin.site.register(Task)
+admin.site.register(GalleryImage)
+
+
